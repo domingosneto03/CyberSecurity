@@ -6,6 +6,7 @@
 - Não foi notada por 10 anos quando em 2021 foi descoberta por uma equipa de investigadores da Qualys.
 - Eles descobriram um Heap-Based Buffer Overflow no Sudo que afetou todos os sistemas baseados em Unix.
 - A 3 Feb, 2021 foi reportado que o macOS,AIX, e Solaris também eram vulneráveis.
+- A vulnerabilidade tem um base score de 7.8 High.
 
 ## Catalogação
 
