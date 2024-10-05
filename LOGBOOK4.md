@@ -16,9 +16,9 @@
 
 - Após a compilação do ficheiro `myprintenv.c`, corremos e guardamos o seu output em `file` que contém uma lista completa das variáveis do processo filho.
 
-- Após uma alteração no ficheiro `printenv.c` repetimos o processo guardando o output em `file2` que contém a lista de variáveis do processo pai.
+- Após uma alteração no ficheiro `myprintenv.c` repetimos o processo guardando o output em `file2` que contém a lista de variáveis do processo pai.
 
-- Tendo como objetivo descobrir se as variáveis de ambiente do processo pai sâo herdadas pelo processo filho, fez-se uma comparação entre os dois ficheiros com o seguinte comando:
+- Tendo como objetivo descobrir se as variáveis de ambiente do processo pai são herdadas pelo processo filho, fez-se uma comparação entre os dois ficheiros com o seguinte comando:
 
 ```bash
 diff file file2
