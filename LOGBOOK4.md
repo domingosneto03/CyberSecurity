@@ -6,8 +6,8 @@
 
 - Experimentou-se o comando `printenv PWD` para obter o path completo do diretório atual.
 
-![image](screenshots/screenshot-01)
+![image](screenshots/screenshot-01.png)
 
 - Com o comando `export` foi possível criar uma variável no sistema.
 
-![image](screenshots/screenshot-02)
+![image](screenshots/screenshot-02.png)
