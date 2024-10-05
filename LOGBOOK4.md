@@ -24,6 +24,26 @@
 diff file file2
 ```
 
-- A falta de um output indica que não existem diferenças nos dois ficheiros concluindo então que as variáveis de ambiente são herdadas.
+- Um output vazio indica que não existem diferenças nos dois ficheiros concluindo então que as variáveis de ambiente são herdadas.
 
 ![image](screenshots/screenshot-03.png)
+
+## Task 3
+
+- Executar o ficheiro `myenv.c` gera um output vazio.
+
+![image](screenshots/screenshot-04.png)
+
+- Observando o comando `execve`, deduzimos que, por causa do terceiro parâmetro se encontrar a NULL, as variáveis de ambiente não são passadas.
+
+```c
+execve("/usr/bin/env", argv, NULL);
+``` 
+
+- Alterando esse parâmetro pela variável `environ`, o array passa a ser usado para passar as variáveis de ambiente.
+
+```c
+execve("/usr/bin/env", argv, environ);
+``` 
+
+![image](screenshots/screenshot-05.png)
