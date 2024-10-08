@@ -50,10 +50,14 @@ execve("/usr/bin/env", argv, environ);
 
 ## Task 4
 
--Usando o comando `system`, verificámos que foi criado um novo processo onde são passadas todas variaveis de ambiente do processo anterior.
+- Usando o comando `system`, verificámos que foi criado um novo processo onde são passadas todas variaveis de ambiente do processo anterior.
 
 - No caso de `execve` é mantido o processo atual e as mesmas variáveis de ambiente, substituindo o processo em execução pelo comando passado como argumento, que so mantém as variáveis de ambiente se estas forem passadas como argumento.
 
 ## Task 5
+
+## Task 6
+
+## Task 8
 
 
