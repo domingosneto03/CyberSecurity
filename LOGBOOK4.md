@@ -6,11 +6,11 @@
 
 - Experimentámos o comando `printenv PWD` para obter o path completo do diretório atual.
 
-![image](screenshots/screenshot-01.png)
+![image](screenshots/LB4_3.png)
 
 - Com o comando `export` foi possível criar uma variável no sistema.
 
-![image](screenshots/screenshot-02.png)
+![image](screenshots/LB4_4.png)
 
 ## Task 2
 
@@ -26,13 +26,13 @@ diff file file2
 
 - Um output vazio indica que não existem diferenças nos dois ficheiros concluindo então que as variáveis de ambiente são herdadas.
 
-![image](screenshots/screenshot-03.png)
+![image](screenshots/LB4_5.png)
 
 ## Task 3
 
 - Executar o ficheiro `myenv.c` gera um output vazio.
 
-![image](screenshots/screenshot-04.png)
+![image](screenshots/LB4_6.png)
 
 - Observando o comando `execve`, deduzimos que, por causa do terceiro parâmetro se encontrar a NULL, as variáveis de ambiente não são passadas.
 
@@ -46,7 +46,7 @@ execve("/usr/bin/env", argv, NULL);
 execve("/usr/bin/env", argv, environ);
 ``` 
 
-![image](screenshots/screenshot-05.png)
+![image](screenshots/LB4_7.png)
 
 ## Task 4
 
