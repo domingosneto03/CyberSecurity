@@ -56,6 +56,17 @@ execve("/usr/bin/env", argv, environ);
 
 ## Task 5
 
+- Apenas a variável `PATH` e a variável de ambiente personalizada entraram no processo filho Set-UID. Como o LD_LIBRARY_PATH é usado pelo carregador de linker dinâmico para localizar bibliotecas compartilhadas em tempo de execução, permitir mudanças em um programa Set-UID poderia representar um risco significativo de segurança. Um invasor poderia manipular essa variável para carregar bibliotecas maliciosas, o que poderia levar à execução de código arbitrário ou outras vulnerabilidades de segurança. 
+
+- As variáveis `PATH` não são tão problemáticas porque afetam onde o shell procura por arquivos executáveis, mas não controlam diretamente o comportamento dos programas executados, assim como as variáveis personalizadas, que não têm um comportamento pré-definido associado ao sistema.
+
+![image](screenshots/LB4_1.png)
+*Antes de correr o programa Set-UID*
+
+![image](screenshots/LB4_2.png)
+*Depois de correr o programa Set-UID*
+
+
 ## Task 6
 
 ## Task 8
