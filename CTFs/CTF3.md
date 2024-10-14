@@ -20,7 +20,7 @@
 
 ## Vulnerabilidades
 
-- O CVE encontrado foi o CVE-2023-2732.
+- O CVE encontrado foi o `CVE-2023-2732`.
 
 - O plugin MStore API para WordPress é vulnerável a uma falha de autenticação nas versões até `3.9.2` 
 
