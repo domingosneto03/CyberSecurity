@@ -106,4 +106,18 @@ sudo ln -sf /bin/zsh /bin/sh
 
 **Step 1**
 
+- Tornámos o programa catall Set-UID e criámos um ficheiro texto sem permissões de escrita para efeitos de teste da vulnerabilidade.
+
+- Sendo que a função sytem() invoca uma shell, ela é vulnerável a shell injection logo como parâmetro do catall colocámos "test.txt;rm test.txt" (A partir do ";" considera que é uma nova função a ser executada com root acess)
+
+![image](screenshots/LB4_9.png)
+
+**Step 2**
+
+- O mesmo não acontece com execve() pois ele apenas executa o /bin/cat com um filename específico, nenhum outro comando pode ser executado.
+
+- Logo irá tratar "test.txt;rm test.txt" como um nome de um ficheiro e retornará um erro.
+
+![image](screenshots/LB4_10.png)
+
 
