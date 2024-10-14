@@ -104,4 +104,6 @@ sudo ln -sf /bin/zsh /bin/sh
 
 ## Task 8
 
+**Step 1**
+
 
