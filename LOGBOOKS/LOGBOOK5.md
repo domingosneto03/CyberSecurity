@@ -46,6 +46,8 @@ gdb-peda$ p/d 0xffffcaf8 - 0xffffca54
 $3 = 164
 ```
 
+- Foi possível registar os seguintes valores para o EBP e o endereço do buffer, respetivamente: 0xffffcaf8 e 0xffffca54. Calculando a diferença entre estes dois valores obtemos, em decimal, 164.
+
 - Obtivemos as informações necessárias e alterámos o ficheiro `exploit.py` para lançar o ataque.
 
 ```c
@@ -81,5 +83,13 @@ with open('badfile', 'wb') as f:
   f.write(content)
 ```
 
+- O valor do `offset` corresponde a 164 + 4 = 168. Foi necessário adicionar 4 à diferença obtida para se obter o endereço do return address devido à arquitetura do programa utilizado visto que o previous frame pointer se encontra em baixo do return adress. 
 
+- O valor de `start` inserido foi um valor escolhido entre 172 e 517, visto que se estabeleceu que serão copiados 517 bytes para o buffer e que entre as posições 168 à 172 encontra-se o return adress. Escolhemos o 300. 
+
+- O valor do `ret`, por sua vez corresponde à posição exata onde ficará o comando de abertura do shellcode. Obteve-se o ret somando ao endereço base obtido do buffer o valor de start em hexadecimal, sendo este valor 0xffffcb90.
+
+- Após correr `exploit.py`, corremos `stack-L1` executando assim o nosso antaque onde foi lançado uma shell.
+
+![image](screenshots/LB5_2.png)
 
