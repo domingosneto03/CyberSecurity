@@ -25,7 +25,7 @@ $ sudo ln -sf /bin/zsh /bin/sh
 
 ## Task 3
 
-- Criámos um ficheiro ``badfile` e usámos o `gdb` para fazer debug a `stack-L1-dbg`.
+- Criámos um ficheiro `badfile` e usámos o `gdb` para fazer debug a `stack-L1-dbg`.
 
 ```Bash
 $ gdb stack-L1-dbg
