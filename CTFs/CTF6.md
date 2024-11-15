@@ -3,6 +3,7 @@
 ## Setup
 
 - Foi executado o comando `checksec` para identificar as proteções ativas no binário fornecido.
+
 ![image](screenshots/CTF6_1.png)
 
 - As proteções presentes permitem que explorarmos vulnerabilidades de escrita arbitrária na memória.
@@ -12,20 +13,23 @@
 - O código fonte foi analisado para identificar as vulnerabilidades.
 
 1. **Existência de Ficheiros Lidos**
+
    - A função `readtxt` lê um ficheiro chamado `"rules.txt"` ao inicializar o programa.
    - O nome do ficheiro pode ser manipulado pela exploração da vulnerabilidade de format string.
 
 2. **Existência de `format string` Vulnerável**
-   - Na função `main`, o programa usa diretamente `printf(buffer)` para exibir o input do utilizador, sem realizar validação ou sanitização.
+
+   - Na função `main`, o programa usa diretamente `printf(buffer)` para exibir o input do utilizador, sem realizar validação.
    - Isso permite explorar a vulnerabilidade de format string para ler ou sobrescrever endereços de memória.
 
 3. **Ação Potencial**
-   - Substituir o nome do ficheiro lido de `rules.txt` para `flag.txt` através de manipulação da memória.
 
+   - Substituir o nome do ficheiro lido de `rules.txt` para `flag.txt` através de manipulação da memória.
 
 ## Exploit
 
 - O programa fornece o endereço da variável `fun` na memória:
+
 ```c
 printf("I will give you an hint: %x\n", &fun);
 ```
@@ -63,6 +67,8 @@ print(buf)
 
 r.interactive()
 ```
+
+- Foi possível então encontrar-mos a flag.
 
 ![image](screenshots/CTF6_2.png)
 
