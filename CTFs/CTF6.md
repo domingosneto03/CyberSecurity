@@ -6,7 +6,7 @@
 
 ![image](screenshots/CTF6_1.png)
 
-- As proteções presentes permitem que explorarmos vulnerabilidades de escrita arbitrária na memória.
+- As proteções presentes permitiram explorarmos vulnerabilidades de escrita arbitrária na memória.
 
 ## Reconhecimento
 
@@ -20,7 +20,7 @@
 2. **Existência de `format string` Vulnerável**
 
    - Na função `main`, o programa usa diretamente `printf(buffer)` para exibir o input do utilizador, sem realizar validação.
-   - Isso permite explorar a vulnerabilidade de format string para ler ou sobrescrever endereços de memória.
+   - Isso permite explorar a vulnerabilidade de **format string** para ler ou sobrescrever endereços de memória.
 
 3. **Ação Potencial**
 
