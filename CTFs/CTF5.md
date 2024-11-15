@@ -19,6 +19,8 @@ O endereço da função readtxt foi identificado como 0x080497a5. Esse endereço
 
     objdump -d program | grep readtxt
 
+![image](/screenshots/CTF5_2.png)
+
 ### Construção do Payload:
 
 O payload é composto por:
@@ -50,4 +52,4 @@ O programa é explorado para abrir e ler o conteúdo de flag.txt, retornando o r
     buf = r.recv().decode()  # Recebe e decodifica a flag
     print(buf)
 
-![image](/screenshots/CTF5_1.png)
+![image](/screenshots/CTF5_2.png)
