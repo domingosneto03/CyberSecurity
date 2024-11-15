@@ -4,6 +4,10 @@ O código fornecido explora a vulnerabilidade manipulando o fluxo de execução 
 
 ## Etapas da Exploração
 
+O comando checksec program permite verificar quais as proteções aplicadas ao binário.
+
+![image](/screenshots/CTF5_1.png)
+
 Estabelecimento da Conexão: O código configura uma conexão com o binário, localmente ou remotamente:
 
     r = remote('ctf-fsi.fe.up.pt', 4000)  # Para servidor remoto
@@ -18,8 +22,6 @@ Estabelecimento da Conexão: O código configura uma conexão com o binário, lo
 O endereço da função readtxt foi identificado como 0x080497a5. Esse endereço foi encontrado utilizando ferramentas objdump:
 
     objdump -d program | grep readtxt
-
-![image](/screenshots/CTF5_1.png)
 
 ### Construção do Payload:
 
