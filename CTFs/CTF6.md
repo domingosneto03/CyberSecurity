@@ -68,7 +68,7 @@ print(buf)
 r.interactive()
 ```
 
-- Foi possível então encontrar-mos a flag.
+- Foi possível então encontrarmos a flag.
 
 ![image](screenshots/CTF6_2.png)
 
