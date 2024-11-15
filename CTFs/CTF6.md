@@ -53,8 +53,11 @@ else:
 payload = b"./flag.." + p32(fun_addr) + b"%8x" + b"%.134518673x%n"
 ```
 1. `./flag..`: O início do nome flag seguido por bytes de ajuste.
+
 2. `p32(fun_addr)`: Endereço do ponteiro fun.
+
 3. `%8x`: Preenche a pilha para alcançar o local correto de escrita.
+
 4. `%.134518673x%n`: Ajusta o contador para escrever o valor necessário no endereço especificado.
 
 - O payload foi enviado ao serviço remoto através do comando:
