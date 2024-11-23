@@ -142,5 +142,38 @@ HARASSMENT AROUND THE COUNTRY
 
     - Desde que o `iv` seja único, oferece alta segurança.
 
+## Task 5
 
+- Usámos o ficheiro `plaintext.txt` mencionado anteriormente e as suas respetivas cifras nos ficheiros `cipher-ecb.bin`, `cipher-cbc.bin` e `cipher-ctr.bin`.
 
+- Em cada ficheiro cifrado, alterámos o 350º byte para `0xD7` utilizando um hex editor.
+
+![image](screenshots/LB9_1.png)
+
+- Após decifrar os ficheiros corrompidos foi possível observar que se perdeu bytes de informação.
+
+| Cipher Mode |  Bytes Lost |
+|-------------|-------------|
+| aes-128-ecb | 16          |
+| aes-128-cbc | 32          |
+| aes-128-ctr | 1           |
+
+- No modo `ecb` e `cbc` existe corrupção no bloco de 16 bytes correspondente ao byte alterado, sendo que no modo `cbc` o bloco seguinte também é corrompido.
+
+- No modo `ctr` apenas o byte alterado será corrompido porque cada byte é cifrado de forma independente.
+
+#### *plaintext.txt*
+
+![image](screenshots/LB9_2.png)
+
+#### *decrypted-ecb.txt*
+
+![image](screenshots/LB9_3.png)
+
+#### *decrypted-cbc.txt*
+
+![image](screenshots/LB9_4.png)
+
+#### *decrypted-ctr.txt*
+
+![image](screenshots/LB9_5.png)
