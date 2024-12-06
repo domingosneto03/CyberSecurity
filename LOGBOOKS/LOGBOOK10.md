@@ -69,7 +69,32 @@ http://www.seedlab-hashlen.com/?myname=DomingosNeto&uid=1001&lstcmd=1&download=s
 
 ![image](screenshots/LB10_3.png)
 
+## Task 2
 
+- Considerando a mensagem:
+
+```
+"123456:myname=DomingosNeto&uid=1001&lstcmd=1"
+```
+
+- O tamanho da mensagem é de 44 bytes. Portanto, o padding é `64-44=20`.
+
+- 20 bytes são 44 bytes são `8*44=352` bits sendo igual a `0x0160`
+
+```
+"123456:myname=DomingosNeto&uid=1001&lstcmd=1"
+"\x80"
+"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+"\x00\x00\x00\x00\x00\x00\x00\x01\x60"
+```
+
+- Em formato compatível com URL temos:
+
+```
+"%80%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%01%60"
+```
+
+## Task 3
 
 
 
