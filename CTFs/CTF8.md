@@ -107,6 +107,6 @@ Correndo o script descobrímos o hash da password do admin:
 
 O hash segue o formato de PHPPass, um algoritmo comumente usado para proteger senhas no Wordpress. O hashcat suporta o formato PHPPass através do modo 400.
 
-Utilizando o hashcat com os parâmetros hashcat -m 400 -a 0 hash rockyou.txt, sendo o último ficheiro uma coleção de passwords mais utilizadas que encontrámos no github, descodificamos a flag heartbroken.
+Utilizando o hashcat com os parâmetros hashcat -m 400 -a 0 hash.txt rockyou.txt, sendo o último ficheiro uma coleção de passwords mais utilizadas que encontrámos no github, descodificamos a flag heartbroken.
 
 ![Resultado Hashcat](/screenshots/CTF8_8.png)
