@@ -86,6 +86,15 @@ _tr '<|[~>' 'AOERS'_
 
 _tr '<|[~>%*' 'AOEISNR'_
 
-- Substituimos, portanto, o símbolo `(` (que coincidentemente era o símbolo seguinte da nossa tabela 1-gram) por `C` e foi possível identifcar palavras como `corre` e `ação`.
+- Substituimos, portanto, o símbolo `(` (que coincidentemente era o símbolo seguinte da nossa tabela 1-gram) por `C` e foi possível identifcar palavras como `corre` e `ação`. O s´´imbolo `/` já tinhamos a certeza que corresponderia à letra `M` mas de modo a seguir a ordem da tabela deixamos essa substiuição "em espera".
 
-- 
+- Alterando cada vez mais letras usando a tabela de frequências e o sentido do excerto, conseguimos encontrar mais palavras como `sociedade`, `sindicato`, `corretora`, etc.
+
+![image](/screenshots/CTF10_7.png)
+
+_tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_
+
+- Por vezes, inserimos espaços no excerto para ter mais certeza de que a decifração estava corretora
+
+![image](/screenshots/CTF10_8.png)
+
