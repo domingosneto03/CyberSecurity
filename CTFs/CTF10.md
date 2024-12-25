@@ -4,7 +4,7 @@
 
 - Efetuamos uma breve análise ao ficheiro cifrado que nos foi atribuido e levamos em conta a informação de que se tratava de um excerto de um jornal português cifrado com uma cifra clássica.
 
-- Fiizemos a contagem de cada elemento para analiar as suas freqências.
+- Fizemos a contagem de cada elemento para analiar as suas freqências.
 
 ```py
 #!/usr/bin/env python3
@@ -39,4 +39,20 @@ for N in range(N_GRAM):
 - Obtivemos a seguinte organização dos dados:
 
 ![image](/screenshots/CTF10_1.png)
+
+- Como se trata de um excerto sem espaços apenas consideramos a frequência de um elemento (1-grama).
+
+## Comparação
+
+- Visto ser uma cifra clássica explorámos a previsibilidade da frequência de letras esperada. Sendo o excerto de um jornal português, pesquisamos pela freqência de letras mais utiilizadas na língua portuguesa para servir de nosso guia inicial.
+
+- Segundo o Wikipedia, as letras mais frequentes na llíngua portuguesa são as seguintes:
+
+![image](/screenshots/CTF10_2.png)
+
+- Devido ao facto da frequência nos primeiros símbos ser unanimamente alta e diminuir drasticamente a partir do 13º elemento da tabela, previmos que a probabilidade da chave divergir bastante dos dados da tabela de frequência de letras mais usadas seria alta.
+
+- No excerto dado, seguindo a ordem da tabela 1-gram, os 3 primeiros símbolos têm uma frequência que se destaca, os 10 seguintes têm uma frequência muito parecida que torna dificil determinar a letra correspondente, os restantes símbolos têm uma frequência bastante reduzida em comparação aos anteriores e são os que estão mariotariamente presentes na flag que queremos descobrir por estarem entre `{}` (os únicos símbolos que não são cifrados).
+
+## Decifração
 
