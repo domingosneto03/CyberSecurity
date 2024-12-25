@@ -56,3 +56,18 @@ for N in range(N_GRAM):
 
 ## Decifração
 
+- Começamos por substituir `<` e `|` por `A` e `E` por serem os primeiros das tabelas. Para nossa surpresa, reparámos que não era algo que fazia sentido porque a sílaba `ae` não aparece frequentemente nas palavras portuguesas. 
+
+![image](/screenshots/CTF10_3.png)
+
+- Tentamos trocar a ordem das letras `ea` pelo que pareceu uma boa abordagem inicialmente, mas com o decorrer das substituições perdia sentido. Portanto, para facilitar, assumimos que `<` correspondia a `A` de acordo com as tabelas.
+
+- O símbolo `|` substituímos pela letra `O` por ser a terceira letra mais frequente e pelo conjunto `ao` fazer mais sentido visto ser dos ditongos mais presentes na nossa língua.
+
+- Substituímos `[` por `E` para ir de acordo com a alta frequência de símbolos e letras, mas deparámo-nos com outro impasse pois estávamos confiantes que o símbolo seguinte teria que ser um `S` ou um `R` e que seria possível observar algumas palavras simples a se formarem. Isso não aconteceu pelo que nenhuma das letras fez sentido a longo prazo. Algo que difficultou a substituição por `S` ou `R` foi a falta de palavras com letras iguais seguidas que serviria como confirmação de uma das letras indicadas.
+
+![image](/screenshots/CTF10_4.png)
+_tr '<|[~>' 'AOESR'_
+![image](/screenshots/CTF10_5.png)
+_tr '<|[~>' 'AOERS'_
+
