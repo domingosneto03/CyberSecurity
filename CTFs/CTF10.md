@@ -60,6 +60,8 @@ for N in range(N_GRAM):
 
 ![image](/screenshots/CTF10_3.png)
 
+_tr '<|' 'AE'_
+
 - Tentamos trocar a ordem das letras `ea` pelo que pareceu uma boa abordagem inicialmente, mas com o decorrer das substituições perdia sentido. Portanto, para facilitar, assumimos que `<` correspondia a `A` de acordo com as tabelas.
 
 - O símbolo `|` substituímos pela letra `O` por ser a terceira letra mais frequente e pelo conjunto `ao` fazer mais sentido visto ser dos ditongos mais presentes na nossa língua.
@@ -67,7 +69,23 @@ for N in range(N_GRAM):
 - Substituímos `[` por `E` para ir de acordo com a alta frequência de símbolos e letras, mas deparámo-nos com outro impasse pois estávamos confiantes que o símbolo seguinte teria que ser um `S` ou um `R` e que seria possível observar algumas palavras simples a se formarem. Isso não aconteceu pelo que nenhuma das letras fez sentido a longo prazo. Algo que difficultou a substituição por `S` ou `R` foi a falta de palavras com letras iguais seguidas que serviria como confirmação de uma das letras indicadas.
 
 ![image](/screenshots/CTF10_4.png)
+
 _tr '<|[~>' 'AOESR'_
+
 ![image](/screenshots/CTF10_5.png)
+
 _tr '<|[~>' 'AOERS'_
 
+- Após diversas tentativas de combinações diferentes e reformulações da chave, voltamos a confiar na nossa chave inicial `(AOE)` e decidimos substituir `~` por `I`. Dificilmente considerariamos esta opção pois isto significaria que até agora só tinham sido descobertas vogais, mas esta adversividade serviu de aviso de que entre o símbolo `~` e o símbolo `$` da tabela, as frequências são parecidas ao ponto de poderem corresponder a letras inesperadas.
+
+- Foi nesta altura também que percebemos que nesta fase inicial seria fulcral procurar pela presença de palavras que dificilmente existam ou façam sentido, ao invés de procurar e tentar formar palavras que existam. Essa maneira abstrata de pensar ajudou a avançar na tarefa de decifrção. No entanto, tivemos de ter precaução e cosniderar que o que não fizer sentido pode ser na verdade mais que uma palavra junta, por não haver espaços no excerto cifrado.
+
+- Assim, com alguma tentativa e erro substituímos `>`, `%` e `*` por `S`, `N`, `R`, respetivamente. Finalmente começaram a aparecer algumas palavras, embora simples, como `anos`. Também nos saltou à vista uma secção do excerto: `A/ERI(ANOS` que poderia ser a palavra `americanos`. Conseguimos assim, finalmente, entrar no percurso correto da decifração, sabendo assim a letra seguinte a substituir.
+
+![image](/screenshots/CTF10_6.png)
+
+_tr '<|[~>%*' 'AOEISNR'_
+
+- Substituimos, portanto, o símbolo `(` (que coincidentemente era o símbolo seguinte da nossa tabela 1-gram) por `C` e foi possível identifcar palavras como `corre` e `ação`.
+
+- 
