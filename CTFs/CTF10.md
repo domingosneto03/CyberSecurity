@@ -94,7 +94,25 @@ _tr '<|[~>%*' 'AOEISNR'_
 
 _tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_
 
-- Por vezes, inserimos espaços no excerto para ter mais certeza de que a decifração estava corretora
+- Por vezes, inserimos espaços no excerto para ter mais certeza de que a decifração estava correta
 
 ![image](/screenshots/CTF10_8.png)
+
+- Nesta fase, para além de termos descoberto diversas palavras, descobrimos a correspondência correta dos símbolos mais frequentes no excerto. Isso facilitou a descoberta das restantes letras pelo que havia cada vez menos espaço para ambiguidades. Aproximando-nos assim do excerto completamente decifrado e da flag correta.
+
+- A tática usada para decifrar foi semelhante ao método usado para encontrar a palavra `americanos`, que posteriormente nos apercebemos que era apenas `americano` mas não nos desviou da chave correta. Basicamente ao isolarmos a palavra, torna-se fácil perceber o símbolo em falta como por exemplo a secção `IN]ESTIMENTOS` que seria a palavra `investimentos` e indicativo de que o símbolo `]` corresponde à letra `V`.
+
+- Conseguimos então decifrar o excerto completo.
+
+![image](/screenshots/CTF10_9.png)
+
+tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'
+
+- Ao inserirmos espaços percebemos que a nossa resposta estava correta, apesar de não ser um texto fácil de entender. 
+
+![image](/screenshots/CTF10_10.png)
+
+- Descobrimos então a flag sendo: flag{zgdqsngpztmvcbct}
+
+
 
