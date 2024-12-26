@@ -26,11 +26,11 @@ $ sudo nano /etc/hosts
 
 ## Task 1
 
-- Tinhamos como objetivo criar um certificado autoassinado para estabelecer uma Autoridade Certificadora (CA) raiz. Este será usado para emitir certificados para outros servidores ou entidades.
+- Tinhamos como objetivo criar um certificado autoassinado para estabelecer uma Autoridade Certificadora (CA) root. Este será usado para emitir certificados para outros servidores ou entidades.
 
-- Copiamos o ficheiro openssl.cnf para o nosso diretorio através do comando:
+- Copiamos o ficheiro `openssl.cnf` para o nosso diretorio através do comando:
 ```bash
-$ sudo cp /usr/lib/ssl/openssl.cnf ~/Labsetup/my_openssl.cnf
+$ sudo cp /usr/lib/ssl/openssl.cnf ~/Labsetup/my-openssl.cnf
 ```
 - Efetuamos mudanças no ficheiro `my-openssl.cnf` sempre que necessário
 
@@ -41,9 +41,9 @@ $ sudo cp /usr/lib/ssl/openssl.cnf ~/Labsetup/my_openssl.cnf
   - `demoCA/index.txt`: Ficheiro vazio criado.
   - `demoCA/serial`: Contém o número inicial do serial, por exemplo, `1000`.
 
-- A linha `unique_subject = no` foi descomentada para permitir a criação de múltiplos certificados com o mesmo assunto.
+- A linha `unique_subject = no` no ficheiro `my-openssl.cnf` foi descomentada para permitir a criação de múltiplos certificados com o mesmo assunto.
 
-- Utilizamos o seguinte comando para criar o certificado autoassinado:
+- Utilizamos o seguinte comando para criar o certificado self-signed:
 ```bash
 $ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 \
 -keyout ca.key -out ca.crt \
@@ -54,18 +54,18 @@ $ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 \
 - Verificámos o conteúdo do certificado com os seguintes comandos:
     - Para visualizar os detalhes do certificado:
     ```bash
-    openssl x509 -in ca.crt -text -noout
+    $ openssl x509 -in ca.crt -text -noout
     ```
     - Para verificar a chave privada:
     ```bash
-    openssl rsa -in ca.key -text -noout
+    $ openssl rsa -in ca.key -text -noout
     ```
 
 - Foi então possível responder às seguintes perguntas:
 
 1. What part of the certificate indicates this is a CA’s certificate?
     - A extensão `X509v3 Basic Constraints` contém o campo:
-    ```graphql
+    ```
     X509v3 Basic Constraints: critical
         CA:TRUE
     ```
@@ -100,11 +100,11 @@ and key files.
 
 ## Task 2
 
-- Criamos um Pedido de Assinatura de Certificado (CSR) para o servidor web **www.neto2024.com**, que será enviado à CA para ser assinado e convertido num certificado.
+- Criamos um Pedido de Assinatura de Certificado (CSR) para o servidor web www.neto2024.com, que será enviado à CA para ser assinado e convertido num certificado.
 
 - Foi usado o seguinte comando para criar a chave privada e o CSR:
 ```bash
-openssl req -newkey rsa:2048 -sha256 \
+$ openssl req -newkey rsa:2048 -sha256 \
 -keyout server.key -out server.csr \
 -subj "/CN=www.neto2024.com/O=Neto Servidor LTDA./C=PT" \
 -passout pass:password
@@ -112,7 +112,7 @@ openssl req -newkey rsa:2048 -sha256 \
 - Para suportar múltiplos nomes de domínio, foi usado o seguinte comando:
 
 ```bash
-openssl req -newkey rsa:2048 -sha256 \
+$ openssl req -newkey rsa:2048 -sha256 \
 -keyout server.key -out server.csr \
 -subj "/CN=www.neto2024.com/O=Neto Servidor LTDA./C=PT" \
 -passout pass:password \
@@ -124,28 +124,25 @@ openssl req -newkey rsa:2048 -sha256 \
     - Informações do servidor: Nome Comum (CN), Organização (O) e País (C).
     - Extensão de Nomes Alternativos (SAN), se adicionados.
 
-- Nomes alternativos são adicionados porque navegadores verificam se o Nome Comum (CN) ou os Nomes Alternativos (SAN) coincidem com o hostname do servidor. Se não coincidir, a ligação será recusada.
+- Nomes alternativos são adicionados porque navegadores verificam se o CN ou os SAN coincidem com o hostname do servidor. Se não coincidir, a ligação será recusada.
 
 ## Task 3
 
-- Usámos a CA criada na Task 1 para assinar o Pedido de CSR gerado na Task 2, criando assim um certificado válido para o servidor **www.neto2024.com**.
+- Usámos a CA criada na Task 1 para assinar o Pedido de CSR gerado na Task 2, criando assim um certificado válido para o servidor www.neto2024.com.
 
-- Para permitir a cópia de extensões (como os Nomes Alternativos) do CSR para o certificado final, foi descomentada a linha no ficheiro `openssl.cnf`:
-```bash
-copy_extensions = copy
-```
+- Para permitir a cópia de extensões (como os Nomes Alternativos) do CSR para o certificado final, foi descomentada a linha `copy_extensions = copy` no ficheiro `my-openssl.cnf`
 
 - Foi usado o comando seguinte para assinar o CSR e gerar o certificado:
 ```bash
-openssl ca -config my-openssl.cnf -policy policy_anything \
+$ openssl ca -config my-openssl.cnf -policy policy_anything \
 -md sha256 -days 3650 \
 -in server.csr -out server.crt -batch \
 -cert ca.crt -keyfile ca.key
 ```
 
-- Verificamos o conteudo gerado com o comando:
+- Verificamos o conteúdo gerado com o comando:
 ```bash
-openssl x509 -in server.crt -text -noout
+$ openssl x509 -in server.crt -text -noout
 ```
 ![image](/screenshots/LB11_2.png)
 
@@ -235,7 +232,7 @@ root@47864ee4f9d8:/# service apache2 restart
 
 ```bash
 root@47864ee4f9d8:/# mkdir -p /var/www/fake
-root@47864ee4f9d8:/# echo "<h1>Smile for the cam</h1>" > /var/www/fake/index.html
+root@47864ee4f9d8:/# echo "<h1>Smile for the camera ;)</h1>" > /var/www/fake/index.html
 ```
 
 - Para similiar o ataque DNS, adicionamos a configuração do nosso website em `/etc/hosts`
@@ -259,6 +256,59 @@ root@47864ee4f9d8:/# service apache2 restart
 - Para além disso, devido ao HSTS, mesmo que o utilizador quisesse ignorar o aviso e prosseguir, o navegador não permitiria. Isto garante que conexões HTTPS sejam estabelecidas apenas com servidores legítimos.
 
 ## Task 6
+
+- Para fazer com que o ataque MITM funcionasse, usamos a chave privada da CA para criar um certificado que pareça válido para o domínio www.instagram.com
+
+- Geramos o CSR para o website usando o seguinte comando:
+
+```bash
+$ openssl req -newkey rsa:2048 -sha256 \
+-keyout instagram_fake.key -out instagram_fake.csr \
+-subj "/CN=www.instagram.com/O=Fake Attacker Inc./C=US" \
+-passout pass:password
+```
+
+- Assinamos o CSR com a CA comprometida
+
+```bash
+$ openssl ca -config my-openssl.cnf -policy policy_anything \
+-md sha256 -days 365 \
+-in instagram_fake.csr -out instagram_fake.crt \
+-batch -cert ca.crt -keyfile ca.key
+```
+
+- Observa-se que:
+    - `cert ca.crt -keyfile ca.key`: Usa o certificado e a chave privada da CA.
+    - `in instagram_fake.csr`: O CSR gerado no passo anterior.
+    - `out instagram_fake.crt`: O certificado assinado pela CA.
+
+- Alteramos o nosso ficheiro `VirtualHost` e copiamos os certificados para a pasta `/certs` presente no container 
+
+```apache
+<VirtualHost *:443>
+    DocumentRoot /var/www/fake
+    ServerName www.instagram.com
+    DirectoryIndex index.html
+
+    SSLEngine On
+    SSLCertificateFile /certs/instagram_fake.crt
+    SSLCertificateKeyFile /certs/instagram_fake.key
+</VirtualHost>
+```
+```bash
+$ docker cp instagram_fake.crt 47:/certs/
+$ docker cp instagram_fake.key 47:/certs/
+```
+
+- Reiniciamos o servidor Apache
+
+```bash
+root@47864ee4f9d8:/# service apache2 restart
+```
+
+- Ao visitarmos novamente www.instagram.com observamos que o ataque foi realizado e para além disso não foi apresentado qualquer tipo de aviso de segurança.
+
+![image](/screenshots/LB11_10.png)
 
 
 
