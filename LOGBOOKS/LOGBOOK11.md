@@ -44,12 +44,12 @@ $ sudo cp /usr/lib/ssl/openssl.cnf ~/Labsetup/my_openssl.cnf
 - A linha `unique_subject = no` foi descomentada para permitir a criação de múltiplos certificados com o mesmo assunto.
 
 - Utilizamos o seguinte comando para criar o certificado autoassinado:
-  ```bash
-  $ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 \
-  -keyout ca.key -out ca.crt \
-  -subj "/CN=www.domiCA.com/O=Domi CA LTDA./C=PT" \
-  -passout pass:password
-  ```
+```bash
+$ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 \
+-keyout ca.key -out ca.crt \
+-subj "/CN=www.domiCA.com/O=Domi CA LTDA./C=PT" \
+-passout pass:password
+```
 
 - Verificámos o conteúdo do certificado com os seguintes comandos:
     - Para visualizar os detalhes do certificado:
@@ -103,12 +103,12 @@ and key files.
 - Criamos um Pedido de Assinatura de Certificado (CSR) para o servidor web **www.neto2024.com**, que será enviado à CA para ser assinado e convertido num certificado.
 
 - Foi usado o seguinte comando para criar a chave privada e o CSR:
-  ```bash
-  openssl req -newkey rsa:2048 -sha256 \
-  -keyout server.key -out server.csr \
-  -subj "/CN=www.neto2024.com/O=Neto Servidor LTDA./C=PT" \
-  -passout pass:password
-  ```
+```bash
+openssl req -newkey rsa:2048 -sha256 \
+-keyout server.key -out server.csr \
+-subj "/CN=www.neto2024.com/O=Neto Servidor LTDA./C=PT" \
+-passout pass:password
+```
 - Para suportar múltiplos nomes de domínio, foi usado o seguinte comando:
 
 ```bash
@@ -128,12 +128,12 @@ openssl req -newkey rsa:2048 -sha256 \
 
 ## Task 3
 
-Usámos a CA criada na Task 1 para assinar o Pedido de CSR gerado na Task 2, criando assim um certificado válido para o servidor **www.neto2024.com**.
+- Usámos a CA criada na Task 1 para assinar o Pedido de CSR gerado na Task 2, criando assim um certificado válido para o servidor **www.neto2024.com**.
 
 - Para permitir a cópia de extensões (como os Nomes Alternativos) do CSR para o certificado final, foi descomentada a linha no ficheiro `openssl.cnf`:
-  ```bash
-  copy_extensions = copy
-  ```
+```bash
+copy_extensions = copy
+```
 
 - Foi usado o comando seguinte para assinar o CSR e gerar o certificado:
 ```bash
@@ -209,4 +209,4 @@ Foi necessário então importar o certificado da CA no navegador. Portanto acede
 
 ![image](/screenshots/LB11_5.png)
 
-
+## Task 5
