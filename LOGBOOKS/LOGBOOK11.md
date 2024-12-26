@@ -9,8 +9,6 @@ $ dcbuild
 $ dcup
 ```
 
-![image](/screenshots/LB10_1.png)
-
 - Obtemos a shell do container.
 
 ```bash
@@ -18,7 +16,7 @@ $ dockps
 $ docksh 47
 ```
 
-- Tentativa mal sucedida de configurar o DNS.
+- Configuramos o DNS.
 
 ```bash
 $ sudo nano /etc/hosts
@@ -28,7 +26,60 @@ $ sudo nano /etc/hosts
 
 ## Task 1
 
-- Tinhamos como onjetivo criar um certificado autoassinado para estabelecer uma Autoridade Certificadora (CA) raiz. Este será usado para emitir certificados para outros servidores ou entidades.
+- Tinhamos como objetivo criar um certificado autoassinado para estabelecer uma Autoridade Certificadora (CA) raiz. Este será usado para emitir certificados para outros servidores ou entidades.
+
+- Acedemos ao ficheiro openssl.cnf através do comando:
+```bash
+$ sudo nano /usr/lib/ssl/openssl.cnf
+```
+
+- Copiamos a secção [ CA_default ] para o nosso ficheiro `my_openssl.cnf`
+```cnf
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+
+dir             = ./demoCA              # Where everything is kept
+certs           = $dir/certs            # Where the issued certs a>
+crl_dir         = $dir/crl              # Where the issued crl are>
+database        = $dir/index.txt        # database index file.
+unique_subject = no                    # Set to 'no' to allow cre>
+                                        # several certs with same >
+new_certs_dir   = $dir/newcerts         # default place for new ce>
+
+certificate     = $dir/cacert.pem       # The CA certificate
+serial          = $dir/serial           # The current serial number
+crlnumber       = $dir/crlnumber        # the current crl number
+                                        # must be commented out to>
+crl             = $dir/crl.pem          # The current CRL
+private_key     = $dir/private/cakey.pem# The private key
+
+x509_extensions = usr_cert              # The extensions to add to>
+
+# Comment out the following two lines for the "traditional"
+# (and highly broken) format.
+name_opt        = ca_default            # Subject Name options
+cert_opt        = ca_default            # Certificate field options
+
+# Extension copying option: use with caution.
+# copy_extensions = copy
+
+# Extensions to add to a CRL. Note: Netscape communicator chokes o>
+# so this is commented out by default to leave a V1 CRL.
+# crlnumber must also be commented out to leave a V1 CRL.
+# crl_extensions        = crl_ext
+
+default_days    = 365                   # how long to certify for
+default_crl_days= 30                    # how long before next CRL
+default_md      = default               # use public key default MD
+preserve        = no                    # keep passed DN ordering
+# A few difference way of specifying how similar the request shoul>
+# For type CA, the listed attributes must be the same, and the opt>
+# and supplied fields are just that :-)
+policy          = policy_match
+```
+
 
 - Copiamos o ficheiro de configuração `openssl.cnf` para o diretório atual.
 - Criamos as seguintes pastas e ficheiros:
@@ -96,5 +147,33 @@ and key files.
 - A CA está pronta para assinar pedidos de certificado (CSRs) de outras entidades.
 
 ## Task 2
+
+- Criamos um Pedido de Assinatura de Certificado (CSR) para o servidor web **www.neto2024.com**, que será enviado à CA para ser assinado e convertido num certificado.
+
+- Foi usado o seguinte comando para criar a chave privada e o CSR:
+  ```bash
+  openssl req -newkey rsa:2048 -sha256 \
+  -keyout server.key -out server.csr \
+  -subj "/CN=www.neto2024.com/O=Neto Servidor LTDA./C=PT" \
+  -passout pass:password
+  ```
+- Para suportar múltiplos nomes de domínio, foi usado o seguinte comando:
+
+```bash
+openssl req -newkey rsa:2048 -sha256 \
+-keyout server.key -out server.csr \
+-subj "/CN=www.neto2024.com/O=Neto Servidor LTDA./C=PT" \
+-passout pass:password \
+-addext "subjectAltName = DNS:www.neto2024.com, DNS:www.alternativo1.com, DNS:www.alternativo2.com"
+```
+
+- O CSR inclui:
+    - A chave pública do servidor.
+    - Informações do servidor: Nome Comum (CN), Organização (O) e País (C).
+    - Extensão de Nomes Alternativos (SAN), se adicionados.
+
+- Nomes alternativos são adicionados porque navegadores verificam se o Nome Comum (CN) ou os Nomes Alternativos (SAN) coincidem com o hostname do servidor. Se não coincidir, a ligação será recusada.
+
+## Task 3
 
 
