@@ -60,7 +60,7 @@ for N in range(N_GRAM):
 
 ![image](/screenshots/CTF10_3.png)
 
-_tr '<|' 'AE'_
+**_tr '<|' 'AE'_**
 
 - Tentámos trocar a ordem das letras para `ea` pelo que pareceu uma boa abordagem inicialmente, mas com o decorrer das substituições perdeu sentido. Portanto, para facilitar, assumimos que `<` correspondia a `A` de acordo com a tabela de frequências.
 
@@ -70,11 +70,11 @@ _tr '<|' 'AE'_
 
 ![image](/screenshots/CTF10_4.png)
 
-_tr '<|[~>' 'AOESR'_
+**_tr '<|[~>' 'AOESR'_**
 
 ![image](/screenshots/CTF10_5.png)
 
-_tr '<|[~>' 'AOERS'_
+**_tr '<|[~>' 'AOERS'_**
 
 - Após diversas tentativas de combinações diferentes e reformulações da chave, voltámos a confiar na nossa chave inicial `(AOE)` e decidimos substituir `~` por `I`. Dificilmente considerariamos esta opção pois isto significaria que até agora só teriam sido descobertas vogais. No entanto, esta adversividade serviu de aviso de que, entre o símbolo `~` e o símbolo `$` da tabela, as frequências são parecidas ao ponto de poderem corresponder a letras inesperadas.
 
@@ -84,7 +84,7 @@ _tr '<|[~>' 'AOERS'_
 
 ![image](/screenshots/CTF10_6.png)
 
-_tr '<|[~>%*' 'AOEISNR'_
+**_tr '<|[~>%*' 'AOEISNR'_**
 
 - Substituimos, portanto, o símbolo `(` (que coincidentemente era o símbolo seguinte da nossa tabela 1-gram) por `C` e foi possível identifcar palavras como `corre` e `ação`. O símbolo `/` já tinhamos a certeza que corresponderia à letra `M` mas de modo a seguir a ordem da tabela deixamos essa substituição "em espera".
 
@@ -92,7 +92,7 @@ _tr '<|[~>%*' 'AOEISNR'_
 
 ![image](/screenshots/CTF10_7.png)
 
-_tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_
+**_tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_**
 
 - Por vezes, inserimos espaços no excerto para ter mais certeza de que a decifração estava correta
 
@@ -106,7 +106,7 @@ _tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_
 
 ![image](/screenshots/CTF10_9.png)
 
-*_tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'_*
+**_tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'_**
 
 - Ao inserirmos espaços percebemos que a nossa resposta estava correta, apesar de não ter sido um texto fácil de entender. 
 
