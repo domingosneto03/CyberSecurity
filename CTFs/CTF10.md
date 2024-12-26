@@ -106,7 +106,7 @@ _tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_
 
 ![image](/screenshots/CTF10_9.png)
 
-_tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'_
+tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'
 
 - Ao inserirmos espaços percebemos que a nossa resposta estava correta, apesar de não ter sido um texto fácil de entender. 
 
