@@ -28,60 +28,12 @@ $ sudo nano /etc/hosts
 
 - Tinhamos como objetivo criar um certificado autoassinado para estabelecer uma Autoridade Certificadora (CA) raiz. Este será usado para emitir certificados para outros servidores ou entidades.
 
-- Acedemos ao ficheiro openssl.cnf através do comando:
+- Copiamos o ficheiro openssl.cnf para o nosso diretorio através do comando:
 ```bash
-$ sudo nano /usr/lib/ssl/openssl.cnf
+$ sudo cp /usr/lib/ssl/openssl.cnf ~/Labsetup/my_openssl.cnf
 ```
+- Efetuamos mudanças no ficheiro `my-openssl.cnf` sempre que necessário
 
-- Copiamos a secção [ CA_default ] para o nosso ficheiro `my_openssl.cnf`
-```cnf
-[ ca ]
-default_ca = CA_default
-
-[ CA_default ]
-
-dir             = ./demoCA              # Where everything is kept
-certs           = $dir/certs            # Where the issued certs a>
-crl_dir         = $dir/crl              # Where the issued crl are>
-database        = $dir/index.txt        # database index file.
-unique_subject = no                    # Set to 'no' to allow cre>
-                                        # several certs with same >
-new_certs_dir   = $dir/newcerts         # default place for new ce>
-
-certificate     = $dir/cacert.pem       # The CA certificate
-serial          = $dir/serial           # The current serial number
-crlnumber       = $dir/crlnumber        # the current crl number
-                                        # must be commented out to>
-crl             = $dir/crl.pem          # The current CRL
-private_key     = $dir/private/cakey.pem# The private key
-
-x509_extensions = usr_cert              # The extensions to add to>
-
-# Comment out the following two lines for the "traditional"
-# (and highly broken) format.
-name_opt        = ca_default            # Subject Name options
-cert_opt        = ca_default            # Certificate field options
-
-# Extension copying option: use with caution.
-# copy_extensions = copy
-
-# Extensions to add to a CRL. Note: Netscape communicator chokes o>
-# so this is commented out by default to leave a V1 CRL.
-# crlnumber must also be commented out to leave a V1 CRL.
-# crl_extensions        = crl_ext
-
-default_days    = 365                   # how long to certify for
-default_crl_days= 30                    # how long before next CRL
-default_md      = default               # use public key default MD
-preserve        = no                    # keep passed DN ordering
-# A few difference way of specifying how similar the request shoul>
-# For type CA, the listed attributes must be the same, and the opt>
-# and supplied fields are just that :-)
-policy          = policy_match
-```
-
-
-- Copiamos o ficheiro de configuração `openssl.cnf` para o diretório atual.
 - Criamos as seguintes pastas e ficheiros:
   - `demoCA/certs`: Para armazenar os certificados emitidos.
   - `demoCA/crl`: Para armazenar listas de revogação.
@@ -175,5 +127,28 @@ openssl req -newkey rsa:2048 -sha256 \
 - Nomes alternativos são adicionados porque navegadores verificam se o Nome Comum (CN) ou os Nomes Alternativos (SAN) coincidem com o hostname do servidor. Se não coincidir, a ligação será recusada.
 
 ## Task 3
+
+Usámos a CA criada na Task 1 para assinar o Pedido de CSR gerado na Task 2, criando assim um certificado válido para o servidor **www.neto2024.com**.
+
+- Para permitir a cópia de extensões (como os Nomes Alternativos) do CSR para o certificado final, foi descomentada a linha no ficheiro `openssl.cnf`:
+  ```bash
+  copy_extensions = copy
+  ```
+
+- Foi usado o comando seguinte para assinar o CSR e gerar o certificado:
+```bash
+openssl ca -config my-openssl.cnf -policy policy_anything \
+-md sha256 -days 3650 \
+-in server.csr -out server.crt -batch \
+-cert ca.crt -keyfile ca.key
+```
+
+- Verificamos o conteudo gerado com o comando:
+```bash
+openssl x509 -in server.crt -text -noout
+```
+![image](/screenshots/LB11_2.png)
+
+- Os nomes alternativos foram corretamente incluídos no certificado.
 
 
