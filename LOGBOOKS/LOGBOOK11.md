@@ -155,7 +155,7 @@ openssl x509 -in server.crt -text -noout
 
 - Configurámos um website HTTPS no servidor Apache usando o certificado gerado.
 
-- Para isso, precisamos do CA e da chave privada correspondente. Utilizando a shell do container, criamos o um ficheiro `VirtualHost` em `/etc/apache2/sites-available/neto2024_apache_ssl.conf`
+- Para isso, precisamos do CA e da chave privada correspondente. Utilizando a shell do container, criamos um ficheiro `VirtualHost` em `/etc/apache2/sites-available/neto2024_apache_ssl.conf`
 
 ```apache
 <VirtualHost *:443>
@@ -197,7 +197,7 @@ root@47864ee4f9d8:/# service apache2 restart
 
 - A falha inicial ocorre porque a CA utilizada não é reconhecida pelos navegadores. Este é um comportamento esperado e projetado para proteger os utilizadores de certificados maliciosos. Importar o certificado da CA manualmente no navegador resolve o problema, estabelecendo a confiança entre o cliente (navegador) e o servidor.
 
-Foi necessário então importar o certificado da CA no navegador. Portanto acedemos a `about:preferences#privacy` e selecionamos o ficheiro `ca.crt` que geramos inicialmente
+- Foi necessário então importar o certificado da CA no navegador. Portanto acedemos a `about:preferences#privacy` e selecionamos o ficheiro `ca.crt` que geramos inicialmente
 
 ![image](/screenshots/LB11_5.png)
 
@@ -207,6 +207,58 @@ Foi necessário então importar o certificado da CA no navegador. Portanto acede
 
 - Desta forma, o nosso website já era confiado pelo navegador.
 
-![image](/screenshots/LB11_5.png)
+![image](/screenshots/LB11_6.png)
 
 ## Task 5
+
+- O objetivo neste momento era provar que a PKI é eficaz contra ataques Man-In-The-Middle (MITM).
+
+- Para criar o nosso website falso, usámos o www.instagram.com como target website e procedemos com a configuração semelhante à tarefa anterior.
+
+![image](/screenshots/LB11_7.png)
+
+- Criamos o ficheiro `VirtualHost` em `etc/apache2/sites-available/fake_ssl.conf`
+
+```apache
+<VirtualHost *:443>
+    DocumentRoot /var/www/fake
+    ServerName www.instagram.com
+    DirectoryIndex index.html
+
+    SSLEngine On
+    SSLCertificateFile /certs/server.crt
+    SSLCertificateKeyFile /certs/server.key
+</VirtualHost>
+```
+
+- Criamos o nosso website falso e usamos as mesmas configurações de certificação usados anteriormente.
+
+```bash
+root@47864ee4f9d8:/# mkdir -p /var/www/fake
+root@47864ee4f9d8:/# echo "<h1>Smile for the cam</h1>" > /var/www/fake/index.html
+```
+
+- Para similiar o ataque DNS, adicionamos a configuração do nosso website em `/etc/hosts`
+
+![image](/screenshots/LB11_8.png)
+
+```bash
+root@47864ee4f9d8:/# a2enmod ssl
+root@47864ee4f9d8:/# a2ensite fake_apache_ssl
+root@47864ee4f9d8:/# service apache2 restart
+```
+
+- Desta forma seria de esperar que fosse possível aceder ao nosso website falso através de um domínio que não é nosso, mas a PKI previne tal acontecimento
+
+![image](/screenshots/LB11_9.png)
+
+- O navegador verifica se o certificado fornecido pelo servidor corresponde ao domínio acessado. O certificado usado pelo nosso servidor falso foi gerado para o domínio www.neto2024.com (e os nomes alternativos www.alternativo1.com e www.alternativo2.com). Como o certificado não inclui www.instagram.com no campo CN ou SAN, ele é considerado inválido para este domínio.
+
+- Isto demonstra a eficácia do PKI na prevenção de ataques MITM porque A estrutura PKI bloqueou o ataque ao validar o certificado apresentado pelo servidor. O navegador detectou a discrepância entre o domínio acessado (www.instagram.com) e o certificado fornecido (www.neto2024.com), impedindo o acesso.
+
+- Para além disso, devido ao HSTS, mesmo que o utilizador quisesse ignorar o aviso e prosseguir, o navegador não permitiria. Isto garante que conexões HTTPS sejam estabelecidas apenas com servidores legítimos.
+
+## Task 6
+
+
+
