@@ -106,13 +106,13 @@ _tr '<|[~>%*(.,/$' 'AOEISNRTDMP'_
 
 ![image](/screenshots/CTF10_9.png)
 
-tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'
+*_tr '<|[~>%*(.,/$-:_!?]=@&^' 'AOEISNRCTDMPLUFBGVHZQJ'_*
 
 - Ao inserirmos espaços percebemos que a nossa resposta estava correta, apesar de não ter sido um texto fácil de entender. 
 
 ![image](/screenshots/CTF10_10.png)
 
-- Descobrimos então a flag sendo: flag{zgdqsngpztmvcbct}
+- Descobrimos então a flag sendo: `flag{zgdqsngpztmvcbct}`
 
 
 
