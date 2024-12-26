@@ -310,5 +310,8 @@ root@47864ee4f9d8:/# service apache2 restart
 
 ![image](/screenshots/LB11_10.png)
 
+--
 
+- Quando uma CA é comprometida, um mecanismo fundamental para reagir e mitigar ataques é o uso de CRLs. Uma CA mantém uma lista de todos os certificados que foram revogados, incluindo aqueles que foram emitidos indevidamente devido a um comprometimento. Os navegadores consultam periodicamente esta lista para verificar se o certificado de um servidor foi revogado. Se o certificado estiver na CRL, o navegador rejeita a conexão.
 
+- Adversários podem tentar contornar os mecanismos de revogação, como CRLs. Um atacante pode manipular redes locais ou realizar ataques de bloqueio DNS para impedir que o navegador do utilizador acesse as CRLs. Se o navegador não puder verificar o estado do certificado, ele pode prosseguir com a conexão, dependendo das configurações do cliente.
