@@ -151,4 +151,62 @@ openssl x509 -in server.crt -text -noout
 
 - Os nomes alternativos foram corretamente incluídos no certificado.
 
+## Task 4
+
+- Configurámos um website HTTPS no servidor Apache usando o certificado gerado.
+
+- Para isso, precisamos do CA e da chave privada correspondente. Utilizando a shell do container, criamos o um ficheiro `VirtualHost` em `/etc/apache2/sites-available/neto2024_apache_ssl.conf`
+
+```apache
+<VirtualHost *:443>
+    DocumentRoot /var/www/neto2024
+    ServerName www.neto2024.com
+    ServerAlias www.alternativo1.com www.alternativo2.com
+    DirectoryIndex index.html
+
+    SSLEngine On
+    SSLCertificateFile /certs/server.crt
+    SSLCertificateKeyFile /certs/server.key
+</VirtualHost>
+```
+
+- Para que as configurações funcionassem corretamente, criámos o nosso website em `/var/www/neto2024` e copiamos os certificados para a pasta /certs do container.
+
+```bash
+root@47864ee4f9d8:/# mkdir -p /var/www/neto2024
+root@47864ee4f9d8:/# echo "<h1>Bem-vindo ao www.neto2024.com</h1>" > /var/www/neto2024/index.html
+```
+```bash
+$ docker cp server.crt 47:/certs/
+$ docker cp server.key 47:/certs/
+```
+
+- Habilitamos o suporte SSL e o website com os seguintes comandos:
+
+```bash
+root@47864ee4f9d8:/# a2enmod ssl
+root@47864ee4f9d8:/# a2ensite neto2024_apache_ssl
+root@47864ee4f9d8:/# service apache2 restart
+```
+
+![image](/screenshots/LB11_3.png)
+
+- Com a configuração feita, acedemos ao website https://www.neto2024.com onde nos deparamos com uma proteção.
+
+![image](/screenshots/LB11_4.png)
+
+- A falha inicial ocorre porque a CA utilizada não é reconhecida pelos navegadores. Este é um comportamento esperado e projetado para proteger os utilizadores de certificados maliciosos. Importar o certificado da CA manualmente no navegador resolve o problema, estabelecendo a confiança entre o cliente (navegador) e o servidor.
+
+Foi necessário então importar o certificado da CA no navegador. Portanto acedemos a `about:preferences#privacy` e selecionamos o ficheiro `ca.crt` que geramos inicialmente
+
+![image](/screenshots/LB11_5.png)
+
+- Este certificado é conhecido como um certificado raiz, porque foi autoassinado pela própria CA e serve como o ponto de confiança para todos os certificados que ela emitir.
+
+- O `ca.crt` é essencial porque representa a CA local criada por nós. Ao carregar o ficheiro no navegador, garantimos que ele confie nos certificados assinados pela nossa CA, permitindo a validação correta do certificado do servidor.
+
+- Desta forma, o nosso website já era confiado pelo navegador.
+
+![image](/screenshots/LB11_5.png)
+
 
