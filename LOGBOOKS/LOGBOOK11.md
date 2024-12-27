@@ -1,6 +1,6 @@
 # Public-Key Infrastructure Lab
 
-## Initial Setup
+## Setup
 
 - Construimos o container. 
 
