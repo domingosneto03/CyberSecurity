@@ -43,6 +43,7 @@ pkt = sniff(iface='br-5b39555aa03d', filter='icmp', prn=print_pkt)
 - Executamos o ficheiro com privilégios root
 
 ```bash
+$ chmod a+x sniffer.py
 $ sudo ./sniffer.py
 ```
 
@@ -282,4 +283,27 @@ root@bf0a6620e04a:/# ping 10.9.0.5 # do hostB para hostA
 ###[ Raw ]### 
            load      = 'e\xd1ng\x00\x00\x00\x00\x1en\x03\x00\x00\x00\x00\x00\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./01234567'
 ```
+
+- Agora sem privilégios root, executamos novamente `sniffer.py`
+
+```bash
+$ su seed
+$ ./sniffer.py
+```
+
+![image](/screenshots/LB13_4.png)
+
+- Com privilégios de root: O sniffer consegue capturar pacotes porque sniffing exige acesso direto à interface de rede, algo restrito a utilizadores com permissões administrativas. Sem privilégios de root: O programa falha porque os sistemas operacionais restringem acesso direto ao hardware de rede para proteger a privacidade e a segurança.
+
+- Ao capturar um pacote ICMP com o pkt.show(), as seguintes camadas serão visíveis:
+
+  1. Ethernet:
+    - Contém os endereços MAC de origem e destino.
+  2. IP:
+    - Endereços IP de origem e destino.
+    - TTL e protocolo (ICMP neste caso).
+  3. ICMP:
+    - Tipo (ex.: Echo Request ou Echo Reply).
+    - Código e checksum.
+
 
