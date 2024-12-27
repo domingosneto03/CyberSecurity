@@ -306,4 +306,121 @@ $ ./sniffer.py
     - Tipo (ex.: Echo Request ou Echo Reply).
     - Código e checksum.
 
+## Task 1.1.B
+
+- Configurámos filtros BPF (Berkeley Packet Filter) no nosso programa de sniffing para capturar apenas pacotes específicos.
+
+  ### Filtro 1: Capturar Apenas Pacotes ICMP
+
+  - Feito anteriormente
+
+```py
+pkt = sniff(iface='br-5b39555aa03d', filter='icmp', prn=print_pkt)
+```
+```bash
+root@0e66e2208714:/# ping 10.9.0.6 # do hostA para hostB
+root@bf0a6620e04a:/# ping 10.9.0.5 # do hostB para hostA
+```
+
+  ### Filtro 2: Capturar Pacotes TCP Vindos de um IP Específico para a Porta 23
+
+  ```py
+  sniff(iface='br-c93733e9f913', filter='tcp and src host 10.9.0.5 and dst port 23', prn=print_pkt)
+  ```
+
+  - Para testar a captura de pacotes usamos o seguinte comando:
+
+  ```bash
+  root@0e66e2208714:/# telnet 10.9.0.6 23
+  ```
+
+  - Apenas pacotes TCP com origem no IP 10.9.0.5 e destino na porta 23 de hostB foram capturados.
+
+  ```bash
+  ###[ Ethernet ]### 
+    dst       = 02:42:0a:09:00:06
+    src       = 02:42:0a:09:00:05
+    type      = IPv4
+  ###[ IP ]### 
+      version   = 4
+      ihl       = 5
+      tos       = 0x10
+      len       = 60
+      id        = 3766
+      flags     = DF
+      frag      = 0
+      ttl       = 64
+      proto     = tcp
+      chksum    = 0x17da
+      src       = 10.9.0.5
+      dst       = 10.9.0.6
+      \options   \
+  ###[ TCP ]### 
+          sport     = 48362
+          dport     = telnet
+          seq       = 1996051077
+          ack       = 0
+          dataofs   = 10
+          reserved  = 0
+          flags     = S
+          window    = 64240
+          chksum    = 0x144b
+          urgptr    = 0
+          options   = [('MSS', 1460), ('SAckOK', b''), ('Timestamp', (3671324248, 0)), ('NOP', None), ('WScale', 7)]
+
+  ###[ Ethernet ]### 
+    dst       = 02:42:0a:09:00:06
+    src       = 02:42:0a:09:00:05
+    type      = IPv4
+  ###[ IP ]### 
+      version   = 4
+      ihl       = 5
+      tos       = 0x10
+      len       = 52
+      id        = 3767
+      flags     = DF
+      frag      = 0
+      ttl       = 64
+      proto     = tcp
+      chksum    = 0x17e1
+      src       = 10.9.0.5
+      dst       = 10.9.0.6
+      \options   \
+  ###[ TCP ]### 
+          sport     = 48362
+          dport     = telnet
+          seq       = 1996051078
+          ack       = 435428466
+          dataofs   = 8
+          reserved  = 0
+          flags     = A
+          window    = 502
+          chksum    = 0x1443
+          urgptr    = 0
+          options   = [('NOP', None), ('NOP', None), ('Timestamp', (3671324259, 1846721987))]
+
+  ...
+
+  ```
+
+  ### Filtro 3: Capturar Pacotes de ou para uma Sub-rede
+
+  ```py
+  sniff(iface='br-c93733e9f913', filter='net 128.230.0.0/16', prn=print_pkt)
+  ```
+
+  - Para testar a captura de pacotes usamos o seguinte comando:
+
+  ```bash
+  root@0e66e2208714:/# ping 128.230.1.1
+  ```
+  - Não havia conectividade com a sub-rede 128.230.0.0/16, resultando em 100%  de perda de pacotes.
+
+- Os filtros BPF permitiram capturar apenas os pacotes de interesse, reduzindo o tráfego desnecessário no sniffer. Estes filtros são ferramentas eficazes para refinar a captura de pacotes em sniffers.
+
+## Task 1.2
+
+
+
+
 
