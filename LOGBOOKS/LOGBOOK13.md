@@ -10,7 +10,7 @@ $ dcup
 ```
 - A VM será o `atacante` e os restantes containers serão `HostA` e `HostB`
 
-- Obtemos a shell dos containers container.
+- Obtemos a shell dos containers.
 
 ```bash
 $ dockps
